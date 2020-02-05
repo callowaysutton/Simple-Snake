@@ -5,8 +5,8 @@
 bool gameOver;
 
 //Screen height and width
-const int width = 20;
-const int height = 20;
+const int width = 640;
+const int height = 480;
 
 //Init the game vars
 int x,y,fruitX,fruitY,score;
