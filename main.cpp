@@ -5,8 +5,8 @@
 bool gameOver;
 
 //Screen height and width
-const int width = 640;
-const int height = 480;
+const int width = 20;
+const int height = 20;
 
 //Init the game vars
 int x,y,fruitX,fruitY,score;
@@ -31,22 +31,34 @@ void Setup() {
 
 //Draws each 'frame' for the game
 void Draw() {
+    //Clear the Screen
     system("cls"); //Linux: system("clear");
-    for(int i=0;i<width; i++)
-        std::cout << "#";
-    std::cout << std::endl;
 
-    for (int i=0; i<height; i++){
-        for(int j; j < width; j++) {
-            if(j==0)
-                std::cout << "X";
+    //Make top wall
+    for(int i = 0; i < width+2; i++) { //Need extra characters because we are using one character as an newline
+        std::cout << "#";
+    }
+    std::cout << std::endl;
+    
+    //Make side Walls
+    for(int i = 0; i < height; i++) {
+        for(int j = 0; j < width; j++) {
+            if(j == 0)
+                std::cout << "#";
             else
                 std::cout << " ";
-            if (j==width-1) {
+
+            if (j==width-1)
                 std::cout << "#";
-            }
         }
+    std::cout << std::endl;
     }
+
+    //Make bottom wall
+    for(int i = 0; i < width+2; i++) { //Need extra characters since we are using one to go to the next line
+        std::cout << "#";
+    }
+    std::cout << std::endl;
 }
 
 //Gets input for game
