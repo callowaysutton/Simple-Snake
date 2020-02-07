@@ -95,7 +95,7 @@ void Input() {
 
 //Does the logistics for the input and game
 void Logic() {
-
+    //Converts the key inputs into coordinates
     switch(dir) {
         case left:
             x--;
@@ -112,7 +112,11 @@ void Logic() {
         default:
             break;
     }
-    
+
+    //Adds death
+    if(x > width || x < 0 || y > height || y < 0) {
+        gameOver = true;
+    }
 }
 
 //Start of program
