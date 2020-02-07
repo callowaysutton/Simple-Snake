@@ -1,5 +1,6 @@
 //Include necessary libs
 #include <iostream>
+#include <conio.h>
 
 //Init game over boolean
 bool gameOver;
@@ -35,7 +36,7 @@ void Draw() {
     system("cls"); //Linux: system("clear");
 
     //Make top wall
-    for(int i = 0; i < width+2; i++) { //Need extra characters because we are using one character as an newline
+    for(int i = 0; i < width+1; i++) { //Need extra characters because we are using one character as an newline
         std::cout << "#";
     }
     std::cout << std::endl;
@@ -45,17 +46,23 @@ void Draw() {
         for(int j = 0; j < width; j++) {
             if(j == 0)
                 std::cout << "#";
-            else
+
+            if(i == y && j == x) {
+                std::cout << "O"; //Display player
+            } else if(i == fruitY && j == fruitX){
+                std::cout << "F"; //Display fruit
+            } else {
                 std::cout << " ";
+            } 
 
             if (j==width-1)
-                std::cout << "#";
+                std::cout << "#"; // Display walls
         }
     std::cout << std::endl;
     }
 
     //Make bottom wall
-    for(int i = 0; i < width+2; i++) { //Need extra characters since we are using one to go to the next line
+    for(int i = 0; i < width+1; i++) { //Need extra characters since we are using one to go to the next line
         std::cout << "#";
     }
     std::cout << std::endl;
@@ -63,11 +70,48 @@ void Draw() {
 
 //Gets input for game
 void Input() {
+    //Control handler
+    if(_kbhit()){
+       switch(_getch()){
+        case 'a':
+            dir = left;
+            break;
+        case 'd':
+            dir = right;
+            break;
+        case 's':
+            dir = down;
+            break;
+        case 'w':
+            dir = up;
+            break;
+        case 'q':
+            gameOver = true;
+            break;
+       } 
+    }
     
 }
 
 //Does the logistics for the input and game
 void Logic() {
+
+    switch(dir) {
+        case left:
+            x--;
+            break;
+        case right:
+            x++;
+            break;
+        case up:
+            y--;
+            break;
+        case down:
+            y++;
+            break;
+        default:
+            break;
+    }
     
 }
 
