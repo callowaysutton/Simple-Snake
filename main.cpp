@@ -147,11 +147,12 @@ void Input() {
 //Does the logistics for the input and game
 void Logic() {
 
-    tailX[0] = x;
-    tailY[0] = y;
     int prevX = tailX[0];
     int prevY = tailY[0];
     int prev2X, prev2Y;
+
+    tailX[0] = x;
+    tailY[0] = y;
 
     for (int i = 1; i < nTail; i++) {
       prev2X = tailX[i];
