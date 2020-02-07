@@ -8,11 +8,14 @@
 bool gameOver;
 
 //Screen height and width
-const int width = 20;
+const int width = 40;
 const int height = 20;
 
 //Init the game vars
 int x,y,fruitX,fruitY,score;
+int tailX[100], tailY[100];
+int nTail;
+bool print = false;
 
 //Setting up input
 enum Direction { stop = 0, left, right, up, down};
@@ -48,7 +51,7 @@ void ranFruit() {
     }
 #else 
     void clearScreen() {
-        Linux: system("clear");
+        system("clear");
     }
 #endif
 
@@ -68,10 +71,10 @@ void Setup() {
 //Draws each 'frame' for the game
 void Draw() {
     //Clear the Screen
-    //clearScreen();
+    clearScreen();
 
     //Make top wall
-    for(int i = 0; i < width+1; i++) { //Need extra characters because we are using one character as an newline
+    for(int i = 0; i < width+2; i++) { //Need extra characters because we are using one character as an newline
         std::cout << "#";
     }
     std::cout << std::endl;
@@ -87,7 +90,17 @@ void Draw() {
             } else if(i == fruitY && j == fruitX){
                 std::cout << "F"; //Display fruit
             } else {
-                std::cout << " ";
+                print = false;
+                for(int k = 0; k < nTail; k++) {
+                    if(tailX[k] == j && tailY[k] == i) {
+                        std::cout << "o";
+                        print = true;
+                    }  
+                }
+                
+                if(!print) {
+                    std::cout << " ";
+                }
             } 
 
             if (j==width-1)
@@ -97,7 +110,7 @@ void Draw() {
     }
 
     //Make bottom wall
-    for(int i = 0; i < width+1; i++) { //Need extra characters since we are using one to go to the next line
+    for(int i = 0; i < width+2; i++) { //Need extra characters since we are using one to go to the next line
         std::cout << "#";
     }
     std::cout << std::endl;
@@ -133,6 +146,22 @@ void Input() {
 
 //Does the logistics for the input and game
 void Logic() {
+
+    tailX[0] = x;
+    tailY[0] = y;
+    int prevX = tailX[0];
+    int prevY = tailY[0];
+    int prev2X, prev2Y;
+
+    for (int i = 1; i < nTail; i++) {
+      prev2X = tailX[i];
+      prev2Y = tailY[i];
+      tailX[i] = prevX;
+      tailY[i] = prevY;
+      prevX = prev2X;
+      prevY = prev2Y;
+     }
+     
     //Converts the key inputs into coordinates
     switch(dir) {
         case left:
@@ -160,6 +189,7 @@ void Logic() {
     if(x==fruitX && y == fruitY) {
         score += 10;
         ranFruit();
+        nTail++;
     }
 }
 
@@ -173,8 +203,7 @@ int main() {
         Draw();
         Input();
         Logic();
-        sleep(5);
-        clearScreen();
+        sleep(20);
     }
     return 0;
 }
