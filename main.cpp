@@ -1,6 +1,8 @@
 //Include necessary libs
 #include <iostream>
 #include <conio.h>
+#include <thread>
+#include <chrono>
 
 //Init game over boolean
 bool gameOver;
@@ -22,6 +24,34 @@ void ranFruit() {
     fruitY = rand() % height;
 }
 
+//Cross-platform sleep function
+#ifdef _WIN32
+    #include <windows.h>
+
+    void sleep(unsigned milliseconds)
+    {
+        Sleep(milliseconds);
+    }
+#else
+    #include <unistd.h>
+
+    void sleep(unsigned milliseconds)
+    {
+        usleep(milliseconds * 1000); // takes microseconds
+    }
+#endif
+
+//Cross-platform clear screen function
+#ifdef _WIN32
+    void clearScreen() {
+        system("cls");
+    }
+#else 
+    void clearScreen() {
+        Linux: system("clear");
+    }
+#endif
+
 //Setup function that sets up all the vars for the game
 void Setup() {
     gameOver = false;
@@ -38,7 +68,7 @@ void Setup() {
 //Draws each 'frame' for the game
 void Draw() {
     //Clear the Screen
-    system("cls"); //Linux: system("clear");
+    //clearScreen();
 
     //Make top wall
     for(int i = 0; i < width+1; i++) { //Need extra characters because we are using one character as an newline
@@ -63,7 +93,7 @@ void Draw() {
             if (j==width-1)
                 std::cout << "#"; // Display walls
         }
-    std::cout << std::endl;
+    std::cout << std::endl;;
     }
 
     //Make bottom wall
@@ -71,6 +101,9 @@ void Draw() {
         std::cout << "#";
     }
     std::cout << std::endl;
+    
+    //Print the score
+    std::cout << "Score: " << score << std::flush;
 }
 
 //Gets input for game
@@ -140,7 +173,8 @@ int main() {
         Draw();
         Input();
         Logic();
-        //Sleep();
+        sleep(5);
+        clearScreen();
     }
     return 0;
 }
