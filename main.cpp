@@ -16,6 +16,12 @@ int x,y,fruitX,fruitY,score;
 enum Direction { stop = 0, left, right, up, down};
 Direction dir;
 
+//Function to randomly place fruit
+void ranFruit() {
+    fruitX = rand() % width;
+    fruitY = rand() % height;
+}
+
 //Setup function that sets up all the vars for the game
 void Setup() {
     gameOver = false;
@@ -24,8 +30,7 @@ void Setup() {
     x = width / 2;
     y = height / 2;
 
-    fruitX = rand() % width;
-    fruitY = rand() % height;
+    ranFruit();
 
     score = 0;
 }
@@ -116,6 +121,12 @@ void Logic() {
     //Adds death
     if(x > width || x < 0 || y > height || y < 0) {
         gameOver = true;
+    }
+
+    //Adds fruit logic and scoring
+    if(x==fruitX && y == fruitY) {
+        score += 10;
+        ranFruit();
     }
 }
 
